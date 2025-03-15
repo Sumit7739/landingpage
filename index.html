@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terminal Home</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg-color: #1a1b26;
+        --text-color: #c0caf5;
+        --box-color: #24283b;
+        --accent-color: #7aa2f7;
+        --hover-color: #bb9af7;
+        --shadow: rgba(0, 0, 0, 0.2);
+      }
+
+      body {
+        font-family: "Fira Code", monospace;
+        background: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 2rem;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      body::before,
+      body::after,
+      body .color-block-1,
+      body .color-block-2 {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        animation: moveAround 25s ease infinite;
+      }
+
+      body::before {
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(122, 162, 247, 0.5),
+          transparent
+        );
+        top: -200px;
+        left: -200px;
+      }
+
+      body::after {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(187, 154, 247, 0.5),
+          transparent
+        );
+        bottom: -200px;
+        right: -200px;
+        animation-delay: -5s;
+      }
+
+      body .color-block-1 {
+        width: 550px;
+        height: 550px;
+        background: radial-gradient(
+          circle,
+          rgba(249, 177, 122, 0.5),
+          transparent
+        );
+        top: 50%;
+        left: -250px;
+        animation-delay: -10s;
+      }
+
+      body .color-block-2 {
+        width: 650px;
+        height: 650px;
+        background: radial-gradient(
+          circle,
+          rgba(122, 249, 177, 0.5),
+          transparent
+        );
+        bottom: -250px;
+        left: 50%;
+        animation-delay: -15s;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        animation: fadeIn 0.5s ease-in;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        margin-top: 40px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 3rem;
+        background: rgba(36, 40, 59, 0.6);
+        padding: 1rem;
+        border-radius: 12px;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 6px var(--shadow);
+      }
+
+      .time {
+        font-size: 1.2em;
+        font-weight: 500;
+        letter-spacing: 1px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-color),
+          var(--hover-color)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .theme-toggle {
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0.5rem;
+      }
+
+      .theme-toggle:hover {
+        color: var(--hover-color);
+        transform: rotate(20deg);
+      }
+
+      h2 {
+        text-align: center;
+        margin: 0 0 2rem 0;
+        font-size: 2em;
+        background: linear-gradient(
+          90deg,
+          var(--accent-color),
+          var(--hover-color)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: slideUp 0.5s ease-out;
+      }
+
+      .search-box {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        width: 80%;
+        max-width: 800px;
+        margin-bottom: 50px;
+      }
+
+      input,
+      select {
+        background: var(--box-color);
+        color: var(--text-color);
+        border: none;
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        font-family: "Fira Code", monospace;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px var(--shadow);
+      }
+
+      input {
+        flex-grow: 1;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--accent-color);
+        transform: translateY(-2px);
+      }
+
+      .links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .links a {
+        background: var(--box-color);
+        padding: 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px var(--shadow);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .links a i {
+        font-size: 1.2em;
+      }
+
+      .links a:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 12px var(--shadow);
+        color: var(--hover-color);
+      }
+
+      .links a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(122, 162, 247, 0.2),
+          transparent
+        );
+        transition: all 0.4s ease;
+      }
+
+      .links a:hover::before {
+        left: 100%;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes moveAround {
+        0% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(150px, 100px);
+        }
+        50% {
+          transform: translate(100px, 150px);
+        }
+        75% {
+          transform: translate(-100px, 100px);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+
+      /* Light theme */
+      body.light {
+        background: #f0f0f0;
+      }
+
+      body.light::before {
+        background: radial-gradient(
+          circle,
+          rgba(100, 102, 233, 0.6),
+          transparent
+        );
+      }
+
+      body.light::after {
+        background: radial-gradient(
+          circle,
+          rgba(155, 77, 202, 0.6),
+          transparent
+        );
+      }
+
+      body.light .color-block-1 {
+        background: radial-gradient(
+          circle,
+          rgba(200, 100, 50, 0.6),
+          transparent
+        );
+      }
+
+      body.light .color-block-2 {
+        background: radial-gradient(
+          circle,
+          rgba(50, 150, 100, 0.6),
+          transparent
+        );
+      }
+
+      body.light .container {
+        --bg-color: #ffffff;
+        --text-color: #2d2d2d;
+        --box-color: #f5f5f5;
+        --accent-color: #6466e9;
+        --hover-color: #9b4dca;
+        --shadow: rgba(0, 0, 0, 0.1);
+      }
+
+      body.light .header {
+        background: rgba(245, 245, 245, 0.9);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      @media screen and (max-width: 620px) {
+        .search-box {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        input {
+          width: 100%;
+        }
+
+        select {
+          max-width: 150px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="color-block-1"></div>
+    <div class="color-block-2"></div>
+    <br />
+    <div class="container">
+      <h2>Welcome, purr!</h2>
+      <div class="header">
+        <div class="time" id="time"></div>
+        <i class="fas fa-moon theme-toggle" id="theme-toggle"></i>
+      </div>
+      <div class="search-box">
+        <input
+          type="text"
+          id="search"
+          placeholder="Search..."
+          onkeypress="search(event)"
+        />
+        <select id="engine">
+          <option value="duckduckgo">DuckDuckGo</option>
+          <option value="google">Google</option>
+        </select>
+      </div>
+      <div class="links">
+        <a href="https://google.com"><i class="fab fa-google"></i> Google </a>
+        
+        <a href="https://wiki.archlinux.org"
+          ><i class="fas fa-book"></i> Arch Wiki</a
+        >
+        <a href="https://aur.archlinux.org"
+          ><i class="fas fa-archive"></i> Arch AUR</a
+        >
+        <a href="https://flathub.org"><i class="fas fa-store"></i> Flathub</a>
+       
+        <a href="https://snapcraft.io"
+          ><i class="fas fa-cubes"></i> Snapcraft</a
+        >
+        <a href="https://github.com"><i class="fab fa-github"></i> GitHub</a>
+        
+        <a href="https://cheat.sh"><i class="fas fa-list"></i> Cheat Sheet</a>
+
+        <a href="https://gmail.com"><i class="fas fa-envelope"></i> Gmail</a>
+        
+        <a href="https://devdocs.io"
+          ><i class="fas fa-file-code"></i> DevDocs</a
+        >
+        <a href="https://flatpak.org"><i class="fas fa-box"></i> Flatpak</a>
+        
+        <a href="https://fast.com"
+          ><i class="fas fa-tachometer-alt"></i> Speed Test</a
+        >
+        <a href="https://regex101.com"
+          ><i class="fas fa-search"></i> Regex101</a
+        >
+        <a href="https://stackoverflow.com"
+          ><i class="fab fa-stack-overflow"></i> Stack Overflow</a
+        >
+        <a href="https://tldr.sh"
+          ><i class="fas fa-terminal"></i> TLDR Commands</a
+        >
+        <a href="https://jsonformatter.org"
+          ><i class="fas fa-code"></i> JSON Formatter</a
+        >
+        <a href="https://explainshell.com"
+          ><i class="fas fa-question-circle"></i> Explain Shell</a
+        >
+      </div>
+    </div>
+    <script>
+      function updateTime() {
+        const now = new Date();
+        const options = {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        };
+        const timeString =
+          now.toLocaleDateString("en-US", options) +
+          " - " +
+          now.toLocaleTimeString();
+        document.getElementById("time").innerText = timeString;
+      }
+      setInterval(updateTime, 1000);
+      updateTime();
+
+      function search(event) {
+        if (event.key === "Enter") {
+          let query = document.getElementById("search").value;
+          let engine = document.getElementById("engine").value;
+          let url =
+            engine === "duckduckgo"
+              ? "https://duckduckgo.com/?q="
+              : "https://google.com/search?q=";
+          window.open(url + encodeURIComponent(query), "_blank");
+        }
+      }
+
+      document
+        .getElementById("theme-toggle")
+        .addEventListener("click", function () {
+          document.body.classList.toggle("light");
+          this.classList.toggle("fa-moon");
+          this.classList.toggle("fa-sun");
+        });
+    </script>
+  </body>
+</html>
